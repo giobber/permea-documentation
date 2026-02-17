@@ -1,0 +1,58 @@
+services:
+  omeka:
+    depends_on:
+      - omeka_db
+    image: giocomai/omeka-s-docker:latest
+    container_name: omeka
+    ports:
+      - "${OMEKA__PORT}:80"
+    restart: unless-stopped
+    environment:
+      MYSQL_USER: ${MYSQL__USER}
+      MYSQL_PASSWORD: ${MYSQL__PASSWORD}
+      MYSQL_DATABASE: omeka
+      MYSQL_HOST: omeka_db
+      APPLICATION_ENV: development
+      OMEKA_THEMES: https://github.com/omeka-s-themes/default
+      OMEKA_MODULES: |
+        https://github.com/Daniel-KM/Omeka-S-module-Common
+        https://github.com/Daniel-KM/Omeka-S-module-EasyAdmin
+        https://github.com/Daniel-KM/Omeka-S-module-Adminer
+        https://github.com/Daniel-KM/Omeka-S-module-Sparql
+      PHP_MEMORY_LIMIT: 512M
+      PHP_UPLOAD_MAX_FILESIZE: 64M
+      PHP_POST_MAX_SIZE: 64M
+      PHP_MAX_EXECUTION_TIME: 300
+      OMEKA_ADMIN_EMAIL: ${OMEKA__ADMIN_EMAIL}
+      OMEKA_ADMIN_NAME: ${OMEKA__ADMIN_NAME}
+      OMEKA_ADMIN_PASSWORD: ${OMEKA__ADMIN_PASSWORD}
+      OMEKA_SITE_TITLE: ${OMEKA__SITE_TITLE}
+    volumes:
+      - omeka:/var/www/html/volume:Z
+
+  omeka_db:
+    image: mysql:latest
+    container_name: omeka_db
+    restart: unless-stopped
+    volumes:
+      - omeka_db:/var/lib/mysql:Z
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL__ROOT_PASSWORD}
+      MYSQL_DATABASE: omeka
+      MYSQL_USER: ${MYSQL__USER}
+      MYSQL_PASSWORD: ${MYSQL__PASSWORD}
+
+  fuseki:
+    container_name: fuseki
+    image: stain/jena-fuseki
+    ports:
+      - "0.0.0.0:${FUSEKI__PORT}:3030"
+    environment:
+      ADMIN_PASSWORD: ${FUSEKI__ADMIN_PASSWORD}
+    volumes:
+      - fuseki:/fuseki
+
+volumes:
+  omeka_db:
+  omeka:
+  fuseki:
