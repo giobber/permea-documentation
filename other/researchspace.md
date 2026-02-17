@@ -1,4 +1,5 @@
 # ResearchSpace
+> (2026-02-16) This document is deprecated as it contains information on a old version of Research Space
 
 ## Links and documentation
 - Main site: https://researchspace.org/
