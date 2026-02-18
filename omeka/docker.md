@@ -8,11 +8,13 @@ The Fuseki image is useful to allow SPARQL query (the alternative built-in appro
 
 Download the docker compose and env file from this repository
 ```shell
-$ curl  https://raw.githubusercontent.com/giobber/permea-documentation/refs/heads/main/docker/docker-compose.yaml
-$ curl https://raw.githubusercontent.com/giobber/permea-documentation/refs/heads/main/docker/.env.default .env
+wget https://raw.githubusercontent.com/giobber/permea-documentation/refs/heads/main/docker/docker-compose.yaml
+wget https://raw.githubusercontent.com/giobber/permea-documentation/refs/heads/main/docker/.env.default -O .env
 ```
 
 Edit the `.env` file and create the container
 ```shell
-$ docker compose up -d
+docker compose up -d
 ```
+
+Go to [http://localhost:8000] to see the newly created Omeka instance.
